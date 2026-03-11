@@ -2754,20 +2754,24 @@ async function resetOneConsent(empId, fullName) {
     const { error } = await sb.from('pdpa_consents').delete().eq('emp_id', empId);
     if (error) throw error;
     localStorage.removeItem('pdpa_consent_' + empId);
-    // อัปเดต row ใน table โดยตรง ไม่ reload ทั้งตาราง
+    showNotif(`✅ รีเซ็ต PDPA ของ ${fullName} เรียบร้อย`, 'success');
+
+    // อัปเดต UI ทันทีโดยไม่รอ Supabase query ใหม่
+    // หา row ของพนักงานคนนี้ใน table แล้วแก้ตรงๆ
     const allRows = document.querySelectorAll('#admin-annual-content table tbody tr');
     for (const row of allRows) {
       if (row.querySelector('td strong')?.textContent === empId) {
+        // เปลี่ยน badge สถานะ
         row.cells[3].innerHTML = `<span class="badge b-danger">❌ ยังไม่ยินยอม</span>`;
+        // เคลียร์วันที่
         row.cells[4].innerHTML = `<span style="font-size:12px;color:var(--sub)">—</span>`;
+        // เคลียร์ปุ่มรีเซ็ต
         row.cells[5].innerHTML = `<span style="font-size:11px;color:var(--sub)">—</span>`;
         break;
       }
     }
-
-    // อัปเดต stat cards โดยนับจาก DOM ที่แก้แล้ว (ไม่ query Supabase ใหม่)
-    updatePdpaStats();
-    showNotif(`✅ รีเซ็ต PDPA ของ ${fullName} เรียบร้อย`, 'success');
+    // อัปเดต stat cards ด้วย
+    await loadPdpaConsentTab();
   } catch(e) {
     showNotif('❌ เกิดข้อผิดพลาด: ' + e.message, 'error');
   }
@@ -2784,23 +2788,6 @@ async function resetAllConsents() {
     await loadPdpaConsentTab();
   } catch(e) {
     showNotif('❌ เกิดข้อผิดพลาด: ' + e.message, 'error');
-  }
-}
-
-// อัปเดต stat cards ของ PDPA โดยนับจาก DOM ที่แสดงอยู่จริงๆ (ไม่ query Supabase ใหม่)
-function updatePdpaStats() {
-  const allRows = document.querySelectorAll('#admin-annual-content table tbody tr');
-  const total = allRows.length;
-  const consented = [...allRows].filter(r => r.cells[3]?.querySelector('.b-ok')).length;
-  const notConsented = total - consented;
-  const pct = total ? Math.round(consented / total * 100) : 0;
-
-  // หา stat cards แล้วอัปเดต
-  const statCards = document.querySelectorAll('#admin-annual-content .stat-card');
-  if (statCards.length >= 3) {
-    statCards[1].querySelector('.stat-val').innerHTML = `${consented}<span class="stat-unit">คน</span>`;
-    statCards[1].querySelector('.badge').textContent = pct + '%';
-    statCards[2].querySelector('.stat-val').innerHTML = `${notConsented}<span class="stat-unit">คน</span>`;
   }
 }
 
