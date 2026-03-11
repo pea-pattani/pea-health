@@ -331,6 +331,7 @@ body { font-family:'Sarabun',sans-serif; background:var(--bg); color:var(--text)
 .btn-print:hover { opacity: .9; }
 
 /* ===== PDPA CONSENT MODAL ===== */
+#pdpa-action-modal.active { display:flex !important; }
 #pdpa-overlay {
   display:none; position:fixed; inset:0; z-index:9999;
   background:rgba(10,5,30,0.82); backdrop-filter:blur(6px);
@@ -418,6 +419,24 @@ body { font-family:'Sarabun',sans-serif; background:var(--bg); color:var(--text)
 </div>
 
 <!-- ===== PDPA CONSENT MODAL ===== -->
+
+<!-- PDPA Action Confirm Modal (ยืนยัน 2 ชั้น) -->
+<div id="pdpa-action-modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:9999;align-items:center;justify-content:center;">
+  <div style="background:#fff;border-radius:16px;padding:32px;max-width:440px;width:90%;box-shadow:0 20px 60px rgba(0,0,0,.2);">
+    <div style="font-size:18px;font-weight:700;margin-bottom:12px;" id="pdpa-action-title"></div>
+    <div style="font-size:14px;line-height:1.6;margin-bottom:20px;padding:14px;background:#F9FAFB;border-radius:10px;" id="pdpa-action-desc"></div>
+    <div style="font-size:13px;color:var(--sub);margin-bottom:8px;" id="pdpa-action-hint"></div>
+    <input id="pdpa-action-input" type="text" placeholder="พิมพ์รหัสพนักงาน..."
+      style="width:100%;padding:10px 14px;border:1.5px solid #D1D5DB;border-radius:8px;font-size:14px;box-sizing:border-box;margin-bottom:20px;"
+      oninput="this.style.border='1.5px solid #D1D5DB'"
+      onkeydown="if(event.key==='Enter') confirmPdpaAction()">
+    <div style="display:flex;gap:10px;justify-content:flex-end;">
+      <button onclick="closePdpaActionModal()" style="padding:9px 20px;border-radius:8px;border:1.5px solid #D1D5DB;background:#fff;font-size:13px;cursor:pointer;">ยกเลิก</button>
+      <button id="pdpa-action-confirm-btn" onclick="confirmPdpaAction()" style="padding:9px 20px;border-radius:8px;border:none;color:#fff;font-size:13px;cursor:pointer;font-weight:600;"></button>
+    </div>
+  </div>
+</div>
+
 <div id="pdpa-overlay">
   <div class="pdpa-modal">
     <!-- Header -->
@@ -1326,7 +1345,7 @@ document.addEventListener('DOMContentLoaded', () => {
 // ===== PDPA CONSENT MANAGEMENT =====
 let pendingUserData = null; // เก็บข้อมูล user ไว้รอหลัง consent
 
-function showPdpaModal(userData) {
+async function showPdpaModal(userData) {
   pendingUserData = userData;
 
   // ตรวจสอบว่าเคย consent แล้วหรือยัง
@@ -1336,8 +1355,22 @@ function showPdpaModal(userData) {
   if (savedConsent) {
     try {
       const c = JSON.parse(savedConsent);
-      // ✅ เคยยินยอมแล้ว → เข้าแอปได้เลย ไม่ต้องแสดง modal
       if (c.main === true) {
+        // ✅ มี localStorage → ตรวจ Supabase ว่าถูกถอนไปแล้วหรือยัง
+        if (sb) {
+          const { data: rec } = await sb.from('pdpa_consents')
+            .select('consent_main,withdrawn_at')
+            .eq('emp_id', userData.emp_id)
+            .maybeSingle();
+          if (rec && rec.withdrawn_at) {
+            // 🔒 ถูกถอนแล้ว → ลบ localStorage แล้วบังคับให้ยินยอมใหม่
+            localStorage.removeItem('pdpa_consent_' + userData.emp_id);
+            const overlay = document.getElementById('pdpa-overlay');
+            overlay.classList.add('active');
+            showNotif('⚠️ ความยินยอม PDPA ของคุณถูกถอน กรุณายินยอมใหม่', 'error');
+            return;
+          }
+        }
         enterApp(userData);
         showNotif(`✅ ยินดีต้อนรับ ${userData.full_name}`, 'success');
         pendingUserData = null;
@@ -2748,43 +2781,102 @@ let adminTab = 'emp', allEmployees = [];
 // ===== ADMIN ANNUAL MODULE =====
 let annualAdminTab = 'emp';
 
-async function resetOneConsent(empId, fullName) {
-  if (!confirm(`รีเซ็ตความยินยอม PDPA ของ "${fullName}" ?\n\nพนักงานจะต้องยินยอมใหม่ในการเข้าสู่ระบบครั้งถัดไป`)) return;
+// === PDPA MODAL สำหรับยืนยัน 2 ชั้น ===
+function showPdpaConfirmModal(empId, fullName, action) {
+  // action: 'withdraw' | 'delete'
+  const modal = document.getElementById('pdpa-action-modal');
+  const title = document.getElementById('pdpa-action-title');
+  const desc = document.getElementById('pdpa-action-desc');
+  const input = document.getElementById('pdpa-action-input');
+  const hint = document.getElementById('pdpa-action-hint');
+  const btn = document.getElementById('pdpa-action-confirm-btn');
+
+  if (action === 'withdraw') {
+    title.textContent = '🔒 ถอนความยินยอม PDPA';
+    desc.innerHTML = `ถอนความยินยอมของ <strong>${fullName}</strong> (${empId})<br><span style="color:var(--sub);font-size:13px;">พนักงานจะต้องยินยอมใหม่เมื่อ Login ครั้งถัดไป</span>`;
+    hint.textContent = `พิมพ์รหัสพนักงาน "${empId}" เพื่อยืนยัน`;
+    btn.style.background = '#B91C1C';
+    btn.textContent = '✔ ถอนความยินยอม';
+  } else {
+    title.textContent = '🗑️ ลบข้อมูลสุขภาพประจำปี';
+    desc.innerHTML = `ลบข้อมูลผลตรวจสุขภาพประจำปีทั้งหมดของ <strong>${fullName}</strong> (${empId})<br><span style="color:#B91C1C;font-size:13px;font-weight:600;">⚠️ ไม่สามารถย้อนกลับได้ — ข้อมูลจะหายถาวร</span>`;
+    hint.textContent = `พิมพ์รหัสพนักงาน "${empId}" เพื่อยืนยัน`;
+    btn.style.background = '#7C3AED';
+    btn.textContent = '🗑️ ลบข้อมูลสุขภาพ';
+  }
+
+  input.value = '';
+  modal.dataset.empId = empId;
+  modal.dataset.fullName = fullName;
+  modal.dataset.action = action;
+  modal.classList.add('active');
+  setTimeout(() => input.focus(), 100);
+}
+
+function closePdpaActionModal() {
+  document.getElementById('pdpa-action-modal').classList.remove('active');
+}
+
+async function confirmPdpaAction() {
+  const modal = document.getElementById('pdpa-action-modal');
+  const empId = modal.dataset.empId;
+  const fullName = modal.dataset.fullName;
+  const action = modal.dataset.action;
+  const inputVal = document.getElementById('pdpa-action-input').value.trim();
+
+  if (inputVal !== empId) {
+    document.getElementById('pdpa-action-input').style.border = '2px solid #B91C1C';
+    showNotif('❌ รหัสพนักงานไม่ถูกต้อง', 'error');
+    return;
+  }
+
+  closePdpaActionModal();
+  const adminId = currentUser?.emp_id || 'unknown';
+  const now = new Date().toISOString();
+
+  if (action === 'withdraw') {
+    await doWithdrawConsent(empId, fullName, adminId, now);
+  } else {
+    await doDeleteHealthData(empId, fullName, adminId, now);
+  }
+}
+
+async function doWithdrawConsent(empId, fullName, adminId, now) {
   try {
-    const { error } = await sb.from('pdpa_consents').delete().eq('emp_id', empId);
+    // update withdrawn_at แทนการลบ เพื่อเก็บประวัติสถานะ "ถูกถอนแล้ว" ไว้แสดง
+    const { error } = await sb.from('pdpa_consents')
+      .update({ consent_main: false, consent_ai: false, withdrawn_at: now })
+      .eq('emp_id', empId);
     if (error) throw error;
     localStorage.removeItem('pdpa_consent_' + empId);
-    showNotif(`✅ รีเซ็ต PDPA ของ ${fullName} เรียบร้อย`, 'success');
 
-    // อัปเดต UI ทันทีโดยไม่รอ Supabase query ใหม่
-    // หา row ของพนักงานคนนี้ใน table แล้วแก้ตรงๆ
-    const allRows = document.querySelectorAll('#admin-annual-content table tbody tr');
-    for (const row of allRows) {
-      if (row.querySelector('td strong')?.textContent === empId) {
-        // เปลี่ยน badge สถานะ
-        row.cells[3].innerHTML = `<span class="badge b-danger">❌ ยังไม่ยินยอม</span>`;
-        // เคลียร์วันที่
-        row.cells[4].innerHTML = `<span style="font-size:12px;color:var(--sub)">—</span>`;
-        // เคลียร์ปุ่มรีเซ็ต
-        row.cells[5].innerHTML = `<span style="font-size:11px;color:var(--sub)">—</span>`;
-        break;
-      }
-    }
-    // อัปเดต stat cards ด้วย
+    // บันทึก Audit Log
+    await sb.from('pdpa_consent_log').insert({
+      emp_id: empId,
+      action: 'withdraw_consent',
+      details: { full_name: fullName, performed_by: adminId, timestamp: now }
+    });
+
+    showNotif(`✅ ถอนความยินยอม PDPA ของ ${fullName} เรียบร้อย`, 'success');
     await loadPdpaConsentTab();
   } catch(e) {
     showNotif('❌ เกิดข้อผิดพลาด: ' + e.message, 'error');
   }
 }
 
-async function resetAllConsents() {
-  if (!confirm('รีเซ็ตความยินยอม PDPA ของพนักงานทุกคน ?\n\nทุกคนจะต้องยินยอมใหม่ในการเข้าสู่ระบบครั้งถัดไป\n\nการดำเนินการนี้ไม่สามารถย้อนกลับได้')) return;
+async function doDeleteHealthData(empId, fullName, adminId, now) {
   try {
-    const { error } = await sb.from('pdpa_consents').delete().neq('emp_id', '__none__');
+    const { error } = await sb.from('annual_checkup').delete().eq('emp_id', empId);
     if (error) throw error;
-    // ลบ localStorage ทุก key
-    Object.keys(localStorage).filter(k => k.startsWith('pdpa_consent_')).forEach(k => localStorage.removeItem(k));
-    showNotif('✅ รีเซ็ต PDPA ทุกคนเรียบร้อย — พนักงานจะถูกถามใหม่เมื่อ Login ครั้งถัดไป', 'success');
+
+    // บันทึก Audit Log
+    await sb.from('pdpa_consent_log').insert({
+      emp_id: empId,
+      action: 'delete_health_data',
+      details: { full_name: fullName, performed_by: adminId, timestamp: now, note: 'ลบข้อมูล annual_checkup ตามสิทธิ์ PDPA' }
+    });
+
+    showNotif(`✅ ลบข้อมูลสุขภาพประจำปีของ ${fullName} เรียบร้อย`, 'success');
     await loadPdpaConsentTab();
   } catch(e) {
     showNotif('❌ เกิดข้อผิดพลาด: ' + e.message, 'error');
@@ -2810,20 +2902,31 @@ async function loadPdpaConsentTab() {
   const rows = emps.map(e => {
     const c = consentMap[e.emp_id];
     const hasConsent = c && c.consent_main && !c.withdrawn_at;
-    const dateStr = c && c.consented_at ? new Date(c.consented_at).toLocaleDateString('th-TH') : '—';
-    const statusBadge = hasConsent
-      ? `<span class="badge b-ok">✅ ยินยอมแล้ว</span>`
-      : `<span class="badge b-danger">❌ ยังไม่ยินยอม</span>`;
-    const resetBtn = hasConsent
-      ? `<button class="btn-xs" style="background:#FEE2E2;color:#B91C1C;border:1px solid #FCA5A5;" onclick="resetOneConsent('${e.emp_id}','${e.full_name}')">↺ รีเซ็ต</button>`
+    const wasWithdrawn = c && c.withdrawn_at;
+
+    // สถานะแบ่ง 3 กรณี
+    let statusBadge;
+    if (hasConsent) {
+      const dateConsented = new Date(c.consented_at).toLocaleDateString('th-TH', {day:'2-digit',month:'short',year:'numeric'});
+      statusBadge = `<div><span class="badge b-ok">✅ ยินยอมแล้ว</span><div style="font-size:11px;color:var(--sub);margin-top:3px;">เมื่อ ${dateConsented}</div></div>`;
+    } else if (wasWithdrawn) {
+      const dateWithdrawn = new Date(c.withdrawn_at).toLocaleDateString('th-TH', {day:'2-digit',month:'short',year:'numeric'});
+      statusBadge = `<div><span class="badge" style="background:#FEF3C7;color:#92400E;border:1px solid #FDE68A;">🔒 ถูกถอนแล้ว</span><div style="font-size:11px;color:var(--sub);margin-top:3px;">ถอนเมื่อ ${dateWithdrawn}</div></div>`;
+    } else {
+      statusBadge = `<span class="badge b-danger">❌ ยังไม่ยินยอม</span>`;
+    }
+
+    const deleteBtn = `<button class="btn-xs" style="background:#EDE9FE;color:#6D28D9;border:1px solid #C4B5FD;font-size:11px;" onclick="showPdpaConfirmModal('${e.emp_id}','${e.full_name}','delete')">🗑️ ลบข้อมูล</button>`;
+    const withdrawBtn = hasConsent
+      ? `<button class="btn-xs" style="background:#FEE2E2;color:#B91C1C;border:1px solid #FCA5A5;" onclick="showPdpaConfirmModal('${e.emp_id}','${e.full_name}','withdraw')">↺ ถอน Consent</button>`
       : `<span style="font-size:11px;color:var(--sub)">—</span>`;
     return `<tr>
       <td><strong>${e.emp_id}</strong></td>
       <td>${e.full_name}</td>
       <td style="font-size:12px">${e.department||'—'}</td>
       <td>${statusBadge}</td>
-      <td style="font-size:12px;color:var(--sub)">${dateStr}</td>
-      <td>${resetBtn}</td>
+      <td>${deleteBtn}</td>
+      <td>${withdrawBtn}</td>
     </tr>`;
   }).join('');
 
@@ -2850,17 +2953,14 @@ async function loadPdpaConsentTab() {
       </div>
     </div>
     <div class="card">
-      <div class="card-title" style="justify-content:space-between;">
+      <div class="card-title">
         🛡️ สถานะความยินยอม PDPA รายบุคคล
-        <button class="btn-xs" style="background:#FEE2E2;color:#B91C1C;border:1px solid #FCA5A5;padding:6px 14px;font-size:12px;" onclick="resetAllConsents()">
-          ↺ รีเซ็ตทุกคน (ตั้งต้นใหม่)
-        </button>
       </div>
       <div style="overflow-x:auto;">
         <table class="tbl">
           <thead><tr>
             <th>รหัส</th><th>ชื่อ-นามสกุล</th><th>แผนก</th>
-            <th>สถานะ</th><th>วันที่ยินยอม</th><th>จัดการ</th>
+            <th>สถานะ</th><th>ลบข้อมูลสุขภาพ</th><th>จัดการ</th>
           </tr></thead>
           <tbody>${rows}</tbody>
         </table>
