@@ -940,25 +940,30 @@ body { font-family:'Sarabun',sans-serif; background:var(--bg); color:var(--text)
             <div class="fg"><label class="fl">ความดันล่าง (mmHg)</label><input class="fi" type="number" id="rf-bpd" placeholder="เช่น 80"></div>
             <div class="fg"><label class="fl">ชีพจร (bpm)</label><input class="fi" type="number" id="rf-pulse-risk" placeholder="เช่น 72"></div>
           </div>
+          <div class="sec-title">👁️ สายตา (Visual Examination)</div>
+          <div class="grid-form">
+            <div class="fg"><label class="fl">Visual Acuity ระยะไกล (VA Far)</label><input class="fi" type="text" id="rf-va-far" placeholder="เช่น 6/6, 6/9, 20/20"><div class="not-tested-wrap"><input type="checkbox" id="nt-va" onchange="['rf-va-far','rf-va-near'].forEach(x=>toggleField(x,'nt-va'));(function(){var cb=document.getElementById('nt-va');var ids=['rf-color-vision','rf-eye-ext'];ids.forEach(function(id){var s=document.getElementById(id);if(cb.checked){s.value='ไม่ได้ตรวจ';s.disabled=true;}else{s.disabled=false;if(s.value==='ไม่ได้ตรวจ')s.value='ปกติ';}});})()"><label for="nt-va">ไม่ได้ตรวจ</label></div></div>
+            <div class="fg"><label class="fl">Visual Acuity ระยะใกล้ (VA Near)</label><input class="fi" type="text" id="rf-va-near" placeholder="เช่น N6, N8, J1"></div>
+            <div class="fg"><label class="fl">Color Vision (ตาบอดสี)</label><select class="fi" id="rf-color-vision"><option>ปกติ</option><option>ผิดปกติ — ตาบอดสีบางส่วน</option><option>ผิดปกติ — ตาบอดสีทั้งหมด</option><option>ไม่ได้ตรวจ</option></select></div>
+            <div class="fg"><label class="fl">External Eye (ตรวจความผิดปกติจาก UV)</label><select class="fi" id="rf-eye-ext"><option>ปกติ</option><option>ผิดปกติ — Pterygium (เนื้องอกตา)</option><option>ผิดปกติ — Cataract (ต้อกระจก)</option><option>ผิดปกติ — อื่นๆ</option><option>ไม่ได้ตรวจ</option></select></div>
+          </div>
           <div class="sec-title">👂 การได้ยิน (Audiometry)</div>
           <div class="grid-form-3">
-            <div class="fg"><label class="fl">หูขวา (dB HL)</label><input class="fi" type="number" id="rf-hr"><div class="not-tested-wrap"><input type="checkbox" id="nt-hearing" onchange="['rf-hr','rf-hl'].forEach(x=>toggleField(x,'nt-hearing'))"><label for="nt-hearing">ไม่ได้ตรวจ</label></div></div>
+            <div class="fg"><label class="fl">หูขวา (dB HL)</label><input class="fi" type="number" id="rf-hr"><div class="not-tested-wrap"><input type="checkbox" id="nt-hearing" onchange="['rf-hr','rf-hl'].forEach(x=>toggleField(x,'nt-hearing'));(function(){var s=document.getElementById('rf-hres');if(document.getElementById('nt-hearing').checked){s.value='ไม่ได้ตรวจ';s.disabled=true;}else{s.disabled=false;if(s.value==='ไม่ได้ตรวจ')s.value='ปกติ';}})()"><label for="nt-hearing">ไม่ได้ตรวจ</label></div></div>
             <div class="fg"><label class="fl">หูซ้าย (dB HL)</label><input class="fi" type="number" id="rf-hl"></div>
             <div class="fg"><label class="fl">ผลการได้ยิน</label><select class="fi" id="rf-hres"><option>ปกติ</option><option>สูญเสียเล็กน้อย (26-40 dB)</option><option>สูญเสียปานกลาง (41-55 dB)</option><option>สูญเสียมาก (>55 dB)</option><option>ไม่ได้ตรวจ</option></select></div>
           </div>
           <div class="sec-title">💨 สมรรถภาพปอด (Spirometry)</div>
           <div class="grid-form-3">
-            <div class="fg"><label class="fl">FVC (% predicted)</label><input class="fi" type="number" step="0.1" id="rf-fvc"><div class="not-tested-wrap"><input type="checkbox" id="nt-lung" onchange="['rf-fvc','rf-fev1'].forEach(x=>toggleField(x,'nt-lung'))"><label for="nt-lung">ไม่ได้ตรวจ</label></div></div>
+            <div class="fg"><label class="fl">FVC (% predicted)</label><input class="fi" type="number" step="0.1" id="rf-fvc"><div class="not-tested-wrap"><input type="checkbox" id="nt-lung" onchange="['rf-fvc','rf-fev1'].forEach(x=>toggleField(x,'nt-lung'));(function(){var s=document.getElementById('rf-lres');if(document.getElementById('nt-lung').checked){s.value='ไม่ได้ตรวจ';s.disabled=true;}else{s.disabled=false;if(s.value==='ไม่ได้ตรวจ')s.value='ปกติ';}})()"><label for="nt-lung">ไม่ได้ตรวจ</label></div></div>
             <div class="fg"><label class="fl">FEV1 (% predicted)</label><input class="fi" type="number" step="0.1" id="rf-fev1"></div>
-            <div class="fg"><label class="fl">ผลสมรรถภาพปอด</label><select class="fi" id="rf-lres"><option>ปกติ</option><option>Restrictive pattern (ข้อจำกัดการพองตัวของปอด)</option><option>Obstructive pattern (การอุดกั้นทางเดินหายใจ)</option><option>Mixed pattern (ทั้งอุดกั้นและข้อจำกัดร่วมกัน)</option></select></div>
+            <div class="fg"><label class="fl">ผลสมรรถภาพปอด</label><select class="fi" id="rf-lres"><option>ปกติ</option><option>Restrictive pattern (ข้อจำกัดการพองตัวของปอด)</option><option>Obstructive pattern (การอุดกั้นทางเดินหายใจ)</option><option>Mixed pattern (ทั้งอุดกั้นและข้อจำกัดร่วมกัน)</option><option>ไม่ได้ตรวจ</option></select></div>
           </div>
-          <div class="sec-title">👁️ สายตา (Visual Examination)</div>
-          <div class="form-grid">
-            <div class="fg"><label class="fl">Visual Acuity ระยะไกล</label><input class="fi" type="text" id="rf-va-far" placeholder="เช่น 6/6, 6/9, 20/20"><div class="not-tested-wrap"><input type="checkbox" id="nt-va" onchange="['rf-va-far','rf-va-near'].forEach(x=>toggleField(x,'nt-va'))"><label for="nt-va">ไม่ได้ตรวจ</label></div></div>
-            <div class="fg"><label class="fl">Visual Acuity ระยะใกล้</label><input class="fi" type="text" id="rf-va-near" placeholder="เช่น N6, N8, J1"></div>
-            <div class="fg"><label class="fl">Color Vision (ตาบอดสี)</label><select class="fi" id="rf-color-vision"><option>ปกติ</option><option>ผิดปกติ — ตาบอดสีบางส่วน</option><option>ผิดปกติ — ตาบอดสีทั้งหมด</option><option>ไม่ได้ตรวจ</option></select></div>
-            <div class="fg"><label class="fl">Stereopsis (การมองภาพ 3 มิติ)</label><select class="fi" id="rf-stereopsis"><option>ปกติ</option><option>ผิดปกติ</option><option>ไม่ได้ตรวจ</option></select></div>
-            <div class="fg"><label class="fl">External Eye Examination (ตรวจความผิดปกติจาก UV)</label><select class="fi" id="rf-eye-ext"><option>ปกติ</option><option>ผิดปกติ — Pterygium (เนื้องอกตา)</option><option>ผิดปกติ — Cataract (ต้อกระจก)</option><option>ผิดปกติ — อื่นๆ</option><option>ไม่ได้ตรวจ</option></select></div>
+          <div class="sec-title">❤️ EKG / ไต / BMI</div>
+          <div class="grid-form-3">
+            <div class="fg"><label class="fl">ผล EKG</label><select class="fi" id="rf-ekg"><option>ปกติ</option><option>ผิดปกติ</option><option>ไม่ได้ตรวจ</option></select></div>
+            <div class="fg"><label class="fl">Creatinine (mg/dL)</label><input class="fi" type="number" step="0.01" id="rf-cr"><div class="not-tested-wrap"><input type="checkbox" id="nt-rfkidney" onchange="toggleField('rf-cr','nt-rfkidney')"><label for="nt-rfkidney">ไม่ได้ตรวจ</label></div></div>
+            <div class="fg"><label class="fl">BMI</label><input class="fi" type="number" step="0.1" id="rf-bmi"></div>
           </div>
           <div class="sec-title">⚗️ สารเคมี</div>
           <div class="grid-form">
@@ -967,12 +972,11 @@ body { font-family:'Sarabun',sans-serif; background:var(--bg); color:var(--text)
             <div class="fg"><label class="fl">หน่วย</label><input class="fi" type="text" id="rf-cunit" placeholder="เช่น ppm, μg/dL"></div>
             <div class="fg"><label class="fl">ค่าอ้างอิง (TLV)</label><input class="fi" type="text" id="rf-cref" placeholder="เช่น <50 ppm"></div>
           </div>
-          <div class="sec-title">❤️ EKG / ไต / BMI</div>
-          <div class="grid-form-3">
-            <div class="fg"><label class="fl">ผล EKG</label><select class="fi" id="rf-ekg"><option>ปกติ</option><option>ผิดปกติ</option><option>ไม่ได้ตรวจ</option></select></div>
-            <div class="fg"><label class="fl">Creatinine (mg/dL)</label><input class="fi" type="number" step="0.01" id="rf-cr"><div class="not-tested-wrap"><input type="checkbox" id="nt-rfkidney" onchange="toggleField('rf-cr','nt-rfkidney')"><label for="nt-rfkidney">ไม่ได้ตรวจ</label></div></div>
-            <div class="fg"><label class="fl">BMI</label><input class="fi" type="number" step="0.1" id="rf-bmi"></div>
-          </div>
+
+
+
+
+
 
           <div class="btn-row">
             <button class="btn-primary" onclick="saveRisk()" id="btn-save-risk">💾 บันทึกข้อมูล</button>
@@ -1009,7 +1013,7 @@ body { font-family:'Sarabun',sans-serif; background:var(--bg); color:var(--text)
             <div style="font-size:30px;margin-bottom:10px;">📄</div>
             <div style="font-family:'Prompt',sans-serif;font-weight:600;margin-bottom:5px;">รายงานผลตรวจสุขภาพ</div>
             <div style="font-size:12px;color:var(--sub);">รายงานผลตรวจปัจจัยเสี่ยงต่อผู้บริหาร</div>
-            <button class="btn-primary" style="margin-top:12px;padding:8px 14px;font-size:12px;" onclick="exportRiskReportPDF()">📥 Export PDF</button>
+            <button class="btn-primary" style="margin-top:12px;padding:8px 14px;font-size:12px;" onclick="pickRiskReportYear()">📥 Export PDF</button>
           </div>
           <div class="card" style="cursor:pointer;transition:.2s" onmouseover="this.style.transform='translateY(-3px)'" onmouseout="this.style.transform=''">
             <div style="font-size:30px;margin-bottom:10px;">⚠️</div>
@@ -2556,7 +2560,6 @@ async function saveRisk() {
     va_far: document.getElementById('rf-va-far').value||null,
     va_near: document.getElementById('rf-va-near').value||null,
     color_vision: document.getElementById('rf-color-vision').value,
-    stereopsis: document.getElementById('rf-stereopsis').value,
     eye_external: document.getElementById('rf-eye-ext').value,
     overall_result: (function(){
       var bps=parseInt(document.getElementById('rf-bps').value)||null;
@@ -2566,14 +2569,13 @@ async function saveRisk() {
       var ekg=document.getElementById('rf-ekg').value;
       var cr=parseFloat(document.getElementById('rf-cr').value)||null;
       var cv=document.getElementById('rf-color-vision').value;
-      var stp=document.getElementById('rf-stereopsis').value;
       var eex=document.getElementById('rf-eye-ext').value;
       var abn=(bps&&bps>=140)||(bpd&&bpd>=90)
         ||(hres&&hres!=='ปกติ'&&hres!=='ไม่ได้ตรวจ')
         ||(fvc&&fvc<80)||(ekg&&ekg!=='ปกติ'&&ekg!=='ไม่ได้ตรวจ')
         ||(cr&&cr>1.2)
         ||(cv&&cv!=='ปกติ'&&cv!=='ไม่ได้ตรวจ')
-        ||(stp&&stp!=='ปกติ'&&stp!=='ไม่ได้ตรวจ')
+        
         ||(eex&&eex!=='ปกติ'&&eex!=='ไม่ได้ตรวจ');
       var warn=(bps&&bps>=130)||(bpd&&bpd>=80);
       return abn?'ผิดปกติ — ต้องติดตาม':warn?'เฝ้าระวัง':'ปกติ';
@@ -2611,12 +2613,12 @@ async function loadMyRisk() {
   riskData = data || [];
   if (!riskData.length) { el.innerHTML = '<div class="empty"><div class="empty-ico">⚠️</div><h3>ยังไม่มีข้อมูล</h3><button class="btn-primary" style="margin-top:12px" onclick="goto(\'enter-risk\')">✏️ ลงข้อมูลเลย</button></div>'; return; }
   el.innerHTML = `<div class="card"><div class="card-title" style="justify-content:space-between;">⚠️ ประวัติตรวจปัจจัยเสี่ยง <button class="btn-primary" style="padding:6px 14px;font-size:12px;" onclick="goto('enter-risk')">+ ลงข้อมูลใหม่</button></div>
-  <div style="overflow-x:auto;"><table class="emp-table"><thead><tr><th>ปี</th><th>ความดัน</th><th>การได้ยิน</th><th>ปอด FVC</th><th>สายตา</th><th>สารเคมี</th><th>EKG</th><th>ผลรวม</th><th>แก้ไข</th></tr></thead>
+  <div style="overflow-x:auto;"><table class="emp-table"><thead><tr><th>ปี</th><th>ความดัน</th><th>การได้ยิน</th><th>ปอด</th><th>สายตา</th><th>สารเคมี</th><th>EKG</th><th>ผลรวม</th><th>แก้ไข</th></tr></thead>
   <tbody>${riskData.map(r=>`<tr>
     <td><strong>${r.checkup_year}</strong><br><span style="font-size:11px;color:var(--sub)">${r.checkup_date||''}</span></td>
     <td>${r.bp_systolic ? r.bp_systolic+'/'+r.bp_diastolic+' mmHg' : '—'}</td>
-    <td>${r.hearing_result||'—'}<br><span style="font-size:11px;color:var(--sub)">${r.hearing_right||''}${r.hearing_right?'/':''} ${r.hearing_left||''} ${r.hearing_right||r.hearing_left?'dB':''}</span></td>
-    <td>${r.fvc||'—'}${r.fvc?'%':''}<br><span style="font-size:11px;color:var(--sub)">${r.lung_result||'—'}</span></td>
+    <td>${r.hearing_result==='ไม่ได้ตรวจ'?'<span style="color:#9CA3AF;font-size:12px;">ไม่ได้ตรวจ</span>':r.hearing_result||'—'}<br><span style="font-size:11px;color:var(--sub)">${r.hearing_right||''}${r.hearing_right?'/':''} ${r.hearing_left||''} ${r.hearing_right||r.hearing_left?'dB':''}</span></td>
+    <td>${r.lung_result==='ไม่ได้ตรวจ'?'<span style="color:#9CA3AF;font-size:12px;">ไม่ได้ตรวจ</span>':(r.fvc?r.fvc+'%':'—')}<br><span style="font-size:11px;color:var(--sub)">${r.lung_result&&r.lung_result!=='ไม่ได้ตรวจ'?r.lung_result:''}</span></td>
     <td style="font-size:11px">${r.va_far?'VA: '+r.va_far:'—'}<br><span style="color:var(--sub)">${r.color_vision&&r.color_vision!=='ไม่ได้ตรวจ'?r.color_vision==='ปกติ'?'สีปกติ':'⚠️สี':''}</span></td>
     <td style="font-size:12px">${r.chemical_test||'—'}</td>
     <td><span class="badge ${r.ekg_risk_result==='ปกติ'?'b-ok':r.ekg_risk_result&&r.ekg_risk_result!=='ไม่ได้ตรวจ'?'b-warn':'b-gray'}">${r.ekg_risk_result||'—'}</span></td>
@@ -2641,7 +2643,7 @@ function editRisk(id) {
     setSelect('rf-hres', r.hearing_result); setSelect('rf-lres', r.lung_result);
     setSelect('rf-ekg', r.ekg_risk_result);
     set('rf-va-far', r.va_far); set('rf-va-near', r.va_near);
-    setSelect('rf-color-vision', r.color_vision); setSelect('rf-stereopsis', r.stereopsis); setSelect('rf-eye-ext', r.eye_external);
+    setSelect('rf-color-vision', r.color_vision); setSelect('rf-eye-ext', r.eye_external);
     document.getElementById('btn-save-risk').textContent = '💾 บันทึกการแก้ไข';
     showNotif('📝 โหลดข้อมูลเดิมเรียบร้อย — แก้ไขแล้วกด บันทึก', 'success');
   }, 150);
@@ -2666,58 +2668,91 @@ async function loadRiskDash() {
     const lungBadge = v => !v||v==='ไม่ได้ตรวจ'?'<span class="badge b-gray">ไม่ได้ตรวจ</span>':v==='ปกติ'?'<span class="badge b-ok">ปกติ</span>':`<span class="badge b-warn">${v}</span>`;
     const fvcBadge = v => !v?'<span class="badge b-gray">—</span>':v>=80?'<span class="badge b-ok">ปกติ (≥80%)</span>':v>=60?'<span class="badge b-warn">ลดลงปานกลาง</span>':'<span class="badge b-danger">ลดลงมาก</span>';
     const ekgBadge = v => !v||v==='ไม่ได้ตรวจ'?'<span class="badge b-gray">ไม่ได้ตรวจ</span>':v==='ปกติ'?'<span class="badge b-ok">ปกติ</span>':'<span class="badge b-warn">ผิดปกติ</span>';
+    const statusBadge = v => !v||v==='ไม่ได้ตรวจ'?'<span class="badge b-gray">ไม่ได้ตรวจ</span>':v==='ปกติ'?'<span class="badge b-ok">ปกติ</span>':`<span class="badge b-warn">${v}</span>`;
+    const bmiRiskBadge = v => !v?'<span class="badge b-gray">—</span>':v<18.5?'<span class="badge b-info">ต่ำกว่าเกณฑ์</span>':v<23?'<span class="badge b-ok">ปกติ</span>':v<25?'<span class="badge b-warn">น้ำหนักเกิน</span>':'<span class="badge b-danger">อ้วน</span>';
+    const notTested = v => !v||v==='ไม่ได้ตรวจ';
+    const makeRow = (label, val, ref, badge) => {
+      if (val===null||val===undefined||val==='') return '';
+      return `<tr><td>${label}</td><td>${val}</td><td style="font-size:12px;color:var(--sub)">${ref}</td><td>${badge}</td></tr>`;
+    };
+    const makeHdr = label => `<tr><td colspan="4" style="background:#F5F3FF;font-weight:700;color:#4C1D95;padding:8px 12px;font-size:12px;">${label}</td></tr>`;
+
+    const issues = [];
+    if (d.bp_systolic>=140||d.bp_diastolic>=90) issues.push('ความดันสูง');
+    else if (d.bp_systolic>=130||d.bp_diastolic>=80) issues.push('ความดันเฝ้าระวัง');
+    if (d.hearing_result&&d.hearing_result!=='ปกติ'&&d.hearing_result!=='ไม่ได้ตรวจ') issues.push('การได้ยินผิดปกติ');
+    if (d.fvc&&d.fvc<80) issues.push('สมรรถภาพปอดลดลง');
+    if (d.ekg_risk_result&&d.ekg_risk_result!=='ปกติ'&&d.ekg_risk_result!=='ไม่ได้ตรวจ') issues.push('EKG ผิดปกติ');
+    if (d.creatinine_risk&&d.creatinine_risk>1.2) issues.push('Creatinine สูง');
+    if (d.color_vision&&d.color_vision!=='ปกติ'&&d.color_vision!=='ไม่ได้ตรวจ') issues.push('Color Vision ผิดปกติ');
+    if (d.eye_external&&d.eye_external!=='ปกติ'&&d.eye_external!=='ไม่ได้ตรวจ') issues.push('External Eye ผิดปกติ');
+    if (d.bmi_risk&&d.bmi_risk>=25) issues.push('อ้วน (BMI≥25)');
+    else if (d.bmi_risk&&d.bmi_risk>=23) issues.push('น้ำหนักเกิน (BMI 23-24.9)');
+
     el.innerHTML = `
-    <div class="risk-stat-grid">
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:14px;">
       <div class="risk-stat-card" style="${d.bp_systolic>=140?'border-color:#DC2626':d.bp_systolic>=120?'border-color:#D97706':''}">
-        <div class="risk-stat-ico">🩸</div>
-        <div class="risk-stat-lbl">ความดัน</div>
+        <div class="risk-stat-ico">🩸</div><div class="risk-stat-lbl">ความดัน</div>
         <div class="risk-stat-val">${d.bp_systolic||'—'}<span style="font-size:12px;font-weight:400;color:var(--sub)">/${d.bp_diastolic||'—'}</span></div>
-        ${d.bp_systolic ? (d.bp_systolic>=140?'<span class="badge b-danger">สูง</span>':d.bp_systolic>=130?'<span class="badge b-warn">เฝ้าระวัง</span>':'<span class="badge b-ok">ปกติ</span>') : '<span class="badge b-gray">ไม่ได้ตรวจ</span>'}
+        ${d.bp_systolic?(d.bp_systolic>=140?'<span class="badge b-danger">สูง</span>':d.bp_systolic>=130?'<span class="badge b-warn">เฝ้าระวัง</span>':'<span class="badge b-ok">ปกติ</span>'):'<span class="badge b-gray">ไม่ได้ตรวจ</span>'}
       </div>
-      <div class="risk-stat-card"><div class="risk-stat-ico">👂</div><div class="risk-stat-lbl">การได้ยิน</div><div class="risk-stat-val">${d.hearing_right||'—'}/${d.hearing_left||'—'} <span style="font-size:12px;font-weight:400;color:var(--sub)">dB</span></div>${hearBadge(d.hearing_result)}</div>
-      <div class="risk-stat-card"><div class="risk-stat-ico">💨</div><div class="risk-stat-lbl">สมรรถภาพปอด FVC</div><div class="risk-stat-val">${d.fvc||'—'}<span style="font-size:12px;font-weight:400;color:var(--sub)">%</span></div>${fvcBadge(d.fvc)}</div>
-      <div class="risk-stat-card"><div class="risk-stat-ico">❤️</div><div class="risk-stat-lbl">EKG</div><div class="risk-stat-val" style="font-size:14px">${d.ekg_risk_result||'—'}</div>${ekgBadge(d.ekg_risk_result)}</div>
+      <div class="risk-stat-card">
+        <div class="risk-stat-ico">👂</div><div class="risk-stat-lbl">การได้ยิน</div>
+        <div class="risk-stat-val" style="font-size:15px">${notTested(d.hearing_result)?'—':d.hearing_right+'/'+d.hearing_left+' dB'}</div>
+        ${hearBadge(d.hearing_result)}
+      </div>
+      <div class="risk-stat-card">
+        <div class="risk-stat-ico">💨</div><div class="risk-stat-lbl">สมรรถภาพปอด</div>
+        <div class="risk-stat-val">${notTested(d.lung_result)?'—':(d.fvc||'—')}<span style="font-size:12px;font-weight:400;color:var(--sub)">${notTested(d.lung_result)?'':' %'}</span></div>
+        ${notTested(d.lung_result)?'<span class="badge b-gray">ไม่ได้ตรวจ</span>':fvcBadge(d.fvc)}
+      </div>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:16px;">
+      <div class="risk-stat-card">
+        <div class="risk-stat-ico">👁️</div><div class="risk-stat-lbl">สายตา (Color Vision)</div>
+        <div class="risk-stat-val" style="font-size:13px">${notTested(d.color_vision)?'—':d.color_vision==='ปกติ'?'ปกติ':'ผิดปกติ'}</div>
+        ${statusBadge(d.color_vision)}
+      </div>
+      <div class="risk-stat-card">
+        <div class="risk-stat-ico">❤️</div><div class="risk-stat-lbl">EKG</div>
+        <div class="risk-stat-val" style="font-size:14px">${d.ekg_risk_result||'—'}</div>
+        ${ekgBadge(d.ekg_risk_result)}
+      </div>
+      <div class="risk-stat-card">
+        <div class="risk-stat-ico">⚖️</div><div class="risk-stat-lbl">BMI</div>
+        <div class="risk-stat-val">${d.bmi_risk||'—'}</div>
+        ${bmiRiskBadge(d.bmi_risk)}
+      </div>
     </div>
     <div class="grid-2">
-      <div class="card"><div class="card-title">👂 แนวโน้มการได้ยิน (dB HL)</div><div class="chart-wrap-sm"><canvas id="chart-hearing"></canvas></div></div>
-      <div class="card"><div class="card-title">💨 แนวโน้มสมรรถภาพปอด (%)</div><div class="chart-wrap-sm"><canvas id="chart-lung"></canvas></div></div>
+      <div class="card"><div class="card-title">การได้ยิน — แนวโน้ม (dB HL)</div><div class="chart-wrap-sm"><canvas id="chart-hearing"></canvas></div></div>
+      <div class="card"><div class="card-title">สมรรถภาพปอด — แนวโน้ม (%)</div><div class="chart-wrap-sm"><canvas id="chart-lung"></canvas></div></div>
+    </div>
+    <div class="grid-2">
+      <div class="card"><div class="card-title">สายตา (VA ระยะไกล) — แนวโน้ม</div><div class="chart-wrap-sm"><canvas id="chart-va"></canvas></div></div>
+      <div class="card"><div class="card-title">BMI — แนวโน้ม</div><div class="chart-wrap-sm"><canvas id="chart-bmi-risk"></canvas></div></div>
     </div>
     <div class="card">
-      <div class="card-title" style="justify-content:space-between;">🔬 รายละเอียดผลตรวจ ปี ${window.selectedRiskYear} <button class="btn-xs btn-edit" onclick="editRisk('${d.id}')">✏️ แก้ไขข้อมูลนี้</button></div>
+      <div class="card-title" style="justify-content:space-between;">รายละเอียดผลตรวจ ปี ${window.selectedRiskYear}
+        <button class="btn-xs btn-edit" onclick="editRisk('${d.id}')">✏️ แก้ไข</button>
+      </div>
       <table class="tbl"><thead><tr><th>รายการ</th><th>ผลตรวจ</th><th>ค่าอ้างอิง</th><th>สถานะ</th></tr></thead><tbody>
-        <tr><td>ความดันบน</td><td>${d.bp_systolic||'—'}${d.bp_systolic?' mmHg':''}</td><td>&lt;120 mmHg</td><td>${d.bp_systolic?(d.bp_systolic>=140?'<span class="badge b-danger">สูง</span>':d.bp_systolic>=130?'<span class="badge b-warn">เฝ้าระวัง</span>':'<span class="badge b-ok">ปกติ</span>'):'<span class="badge b-gray">—</span>'}</td></tr>
-        <tr><td>ความดันล่าง</td><td>${d.bp_diastolic||'—'}${d.bp_diastolic?' mmHg':''}</td><td>&lt;80 mmHg</td><td>${d.bp_diastolic?(d.bp_diastolic>=90?'<span class="badge b-danger">สูง</span>':d.bp_diastolic>=80?'<span class="badge b-warn">เฝ้าระวัง</span>':'<span class="badge b-ok">ปกติ</span>'):'<span class="badge b-gray">—</span>'}</td></tr>
-        <tr><td>ชีพจร</td><td>${d.pulse||'—'}${d.pulse?' bpm':''}</td><td>60-100 bpm</td><td>${d.pulse?(d.pulse>=60&&d.pulse<=100?'<span class="badge b-ok">ปกติ</span>':'<span class="badge b-warn">ผิดปกติ</span>'):'<span class="badge b-gray">—</span>'}</td></tr>
-        <tr><td>หูขวา</td><td>${d.hearing_right||'—'} dB</td><td>&lt;25 dB HL</td><td>${d.hearing_right?d.hearing_right<25?'<span class="badge b-ok">ปกติ</span>':d.hearing_right<40?'<span class="badge b-warn">สูญเสียเล็กน้อย</span>':'<span class="badge b-danger">สูญเสียมาก</span>':'<span class="badge b-gray">—</span>'}</td></tr>
-        <tr><td>หูซ้าย</td><td>${d.hearing_left||'—'} dB</td><td>&lt;25 dB HL</td><td>${d.hearing_left?d.hearing_left<25?'<span class="badge b-ok">ปกติ</span>':d.hearing_left<40?'<span class="badge b-warn">สูญเสียเล็กน้อย</span>':'<span class="badge b-danger">สูญเสียมาก</span>':'<span class="badge b-gray">—</span>'}</td></tr>
-        <tr><td>FVC</td><td>${d.fvc||'—'}${d.fvc?'%':''}</td><td>≥80% predicted</td><td>${fvcBadge(d.fvc)}</td></tr>
-        <tr><td>FEV1</td><td>${d.fev1||'—'}${d.fev1?'%':''}</td><td>≥70%</td><td>${d.fev1?d.fev1>=70?'<span class="badge b-ok">ปกติ</span>':'<span class="badge b-warn">ลดลง</span>':'<span class="badge b-gray">—</span>'}</td></tr>
-        <tr><td>ผลปอด</td><td colspan="2">${d.lung_result||'—'}</td><td>${lungBadge(d.lung_result)}</td></tr>
-        <tr><td colspan="4" style="background:#F0F9FF;font-weight:700;color:#0369A1;padding:8px 12px;">👁️ ผลตรวจสายตา</td></tr>
-        <tr><td>Visual Acuity</td><td>ไกล: ${d.va_far||'—'}</td><td>ใกล้: ${d.va_near||'—'}</td><td></td></tr>
-        <tr><td>Color Vision</td><td colspan="2">${d.color_vision||'—'}</td><td>${!d.color_vision||d.color_vision==='ไม่ได้ตรวจ'?'<span class="badge b-gray">ไม่ได้ตรวจ</span>':d.color_vision==='ปกติ'?'<span class="badge b-ok">ปกติ</span>':'<span class="badge b-warn">ผิดปกติ</span>'}</td></tr>
-        <tr><td>Stereopsis</td><td colspan="2">${d.stereopsis||'—'}</td><td>${!d.stereopsis||d.stereopsis==='ไม่ได้ตรวจ'?'<span class="badge b-gray">ไม่ได้ตรวจ</span>':d.stereopsis==='ปกติ'?'<span class="badge b-ok">ปกติ</span>':'<span class="badge b-warn">ผิดปกติ</span>'}</td></tr>
-        <tr><td>External Eye</td><td colspan="2">${d.eye_external||'—'}</td><td>${!d.eye_external||d.eye_external==='ไม่ได้ตรวจ'?'<span class="badge b-gray">ไม่ได้ตรวจ</span>':d.eye_external==='ปกติ'?'<span class="badge b-ok">ปกติ</span>':'<span class="badge b-warn">ผิดปกติ</span>'}</td></tr>
-        <tr><td>สารเคมี</td><td>${d.chemical_test||'—'}: ${d.chemical_result||'—'} ${d.chemical_unit||''}</td><td>${d.chemical_reference||'—'}</td><td><span class="badge b-info">ดูผล</span></td></tr>
-        <tr><td>EKG</td><td>${d.ekg_risk_result||'—'}</td><td>Normal Sinus Rhythm</td><td>${ekgBadge(d.ekg_risk_result)}</td></tr>
-        <tr><td>Creatinine</td><td>${d.creatinine_risk||'—'}${d.creatinine_risk?' mg/dL':''}</td><td>0.7-1.2 mg/dL</td><td>${d.creatinine_risk?d.creatinine_risk<=1.2?'<span class="badge b-ok">ปกติ</span>':'<span class="badge b-warn">สูง</span>':'<span class="badge b-gray">—</span>'}</td></tr>
+        ${makeHdr('ความดันโลหิต')}
+        ${makeRow('ความดันบน',d.bp_systolic?d.bp_systolic+' mmHg':null,'<120 mmHg',d.bp_systolic?(d.bp_systolic>=140?'<span class="badge b-danger">สูง</span>':d.bp_systolic>=130?'<span class="badge b-warn">เฝ้าระวัง</span>':'<span class="badge b-ok">ปกติ</span>'):'')}
+        ${makeRow('ความดันล่าง',d.bp_diastolic?d.bp_diastolic+' mmHg':null,'<80 mmHg',d.bp_diastolic?(d.bp_diastolic>=90?'<span class="badge b-danger">สูง</span>':d.bp_diastolic>=80?'<span class="badge b-warn">เฝ้าระวัง</span>':'<span class="badge b-ok">ปกติ</span>'):'')}
+        ${makeRow('ชีพจร',d.pulse?d.pulse+' bpm':null,'60-100 bpm',d.pulse?(d.pulse>=60&&d.pulse<=100?'<span class="badge b-ok">ปกติ</span>':'<span class="badge b-warn">ผิดปกติ</span>'):'')}
+        ${notTested(d.hearing_result)?'':(makeHdr('การได้ยิน')+makeRow('หูขวา',d.hearing_right?d.hearing_right+' dB':null,'<25 dB HL',d.hearing_right?(d.hearing_right<25?'<span class="badge b-ok">ปกติ</span>':d.hearing_right<40?'<span class="badge b-warn">สูญเสียเล็กน้อย</span>':'<span class="badge b-danger">สูญเสียมาก</span>'):'')+makeRow('หูซ้าย',d.hearing_left?d.hearing_left+' dB':null,'<25 dB HL',d.hearing_left?(d.hearing_left<25?'<span class="badge b-ok">ปกติ</span>':d.hearing_left<40?'<span class="badge b-warn">สูญเสียเล็กน้อย</span>':'<span class="badge b-danger">สูญเสียมาก</span>'):'')+makeRow('ผลการได้ยิน',d.hearing_result,'ปกติ',hearBadge(d.hearing_result)))}
+        ${notTested(d.lung_result)?'':(makeHdr('สมรรถภาพปอด')+makeRow('FVC',d.fvc?d.fvc+'%':null,'≥80% predicted',fvcBadge(d.fvc))+makeRow('FEV1',d.fev1?d.fev1+'%':null,'≥70%',d.fev1?(d.fev1>=70?'<span class="badge b-ok">ปกติ</span>':'<span class="badge b-warn">ลดลง</span>'):'')+makeRow('ผลสมรรถภาพปอด',d.lung_result,'ปกติ',lungBadge(d.lung_result)))}
+        ${(notTested(d.color_vision)&&notTested(d.eye_external)&&!d.va_far)?'':(makeHdr('สายตา')+makeRow('VA ระยะไกล',d.va_far,'6/6 หรือดีกว่า',d.va_far?'—':'')+makeRow('VA ระยะใกล้',d.va_near,'N6 หรือดีกว่า',d.va_near?'—':'')+makeRow('Color Vision',d.color_vision,'ปกติ',statusBadge(d.color_vision))+makeRow('External Eye',d.eye_external,'ปกติ',statusBadge(d.eye_external)))}
+        ${makeHdr('EKG / ไต / BMI')}
+        ${makeRow('EKG',d.ekg_risk_result,'Normal Sinus Rhythm',ekgBadge(d.ekg_risk_result))}
+        ${makeRow('Creatinine',d.creatinine_risk?d.creatinine_risk+' mg/dL':null,'0.7-1.2 mg/dL',d.creatinine_risk?(d.creatinine_risk<=1.2?'<span class="badge b-ok">ปกติ</span>':'<span class="badge b-warn">สูง</span>'):'')}
+        ${makeRow('BMI',d.bmi_risk?d.bmi_risk+' kg/m²':null,'18.5-22.9 (เกณฑ์เอเชีย)',bmiRiskBadge(d.bmi_risk))}
+        ${d.chemical_test?(makeHdr('สารเคมี')+makeRow('สารเคมีที่ตรวจ',d.chemical_test+': '+(d.chemical_result||'—')+' '+(d.chemical_unit||''),d.chemical_reference||'—','<span class="badge b-info">ดูผล</span>')):''}
       </tbody></table>
-      ${(() => {
-        const issues = [];
-        if (d.bp_systolic >= 140 || d.bp_diastolic >= 90) issues.push('ความดันโลหิตสูง');
-        else if (d.bp_systolic >= 130 || d.bp_diastolic >= 80) issues.push('ความดันอยู่ในเกณฑ์เฝ้าระวัง');
-        if (d.hearing_result && d.hearing_result !== 'ปกติ' && d.hearing_result !== 'ไม่ได้ตรวจ') issues.push('สูญเสียการได้ยิน');
-        if (d.fvc && d.fvc < 80) issues.push('สมรรถภาพปอดลดลง');
-        if (d.ekg_risk_result && d.ekg_risk_result !== 'ปกติ' && d.ekg_risk_result !== 'ไม่ได้ตรวจ') issues.push('EKG ผิดปกติ');
-        if (d.creatinine_risk && d.creatinine_risk > 1.2) issues.push('Creatinine สูง');
-        const summary = issues.length === 0
-          ? '<span style="color:#059669;font-weight:600;">✅ ทุกค่าอยู่ในเกณฑ์ปกติ</span>'
-          : '<span style="color:#DC2626;font-weight:600;">⚠️ พบความผิดปกติ: ' + issues.join(', ') + '</span>';
-        return '<div style="margin-top:12px;padding:10px 14px;background:var(--bg);border-radius:8px;font-size:13px;">'
-          + '📋 สรุปผลอัตโนมัติ: ' + summary
-
-          + '</div>';
-      })()}
+      <div style="margin-top:12px;padding:10px 14px;background:var(--bg);border-radius:8px;font-size:13px;">
+        สรุปผล: ${issues.length===0?'<span style="color:#059669;font-weight:600;">✅ ทุกค่าอยู่ในเกณฑ์ปกติ</span>':'<span style="color:#DC2626;font-weight:600;">⚠️ พบความผิดปกติ: '+issues.join(', ')+'</span>'}
+      </div>
     </div>`;
     setTimeout(() => {
       const sorted = [...riskData].sort((a,b)=>a.checkup_year-b.checkup_year);
@@ -2726,14 +2761,10 @@ async function loadRiskDash() {
         if (dashCharts[id]) dashCharts[id].destroy();
         dashCharts[id] = new Chart(ctx, { type:'line', data:{ labels:sorted.map(r=>'ปี '+r.checkup_year), datasets }, options:{ responsive:true, maintainAspectRatio:false, plugins:{ legend:{ labels:{ font:{ family:'Sarabun', size:11 }}}}, scales:{ y:{ ticks:{ font:{ family:'Sarabun' }}, grid:{ color:'#F3F4F6' }, ...opts }, x:{ ticks:{ font:{ family:'Sarabun', size:11 }}}}}});
       };
-      mkChart('chart-hearing', null, [
-        {label:'หูขวา (dB)',data:sorted.map(r=>r.hearing_right),borderColor:'#6B21A8',borderWidth:2,tension:.4,pointRadius:5,pointBackgroundColor:'#6B21A8'},
-        {label:'หูซ้าย (dB)',data:sorted.map(r=>r.hearing_left),borderColor:'#D97706',borderWidth:2,tension:.4,pointRadius:5,pointBackgroundColor:'#D97706'},
-      ]);
-      mkChart('chart-lung', null, [
-        {label:'FVC (%)',data:sorted.map(r=>r.fvc),borderColor:'#059669',borderWidth:2,tension:.4,fill:true,backgroundColor:'rgba(5,150,105,.07)',pointRadius:5,pointBackgroundColor:'#059669'},
-        {label:'FEV1 (%)',data:sorted.map(r=>r.fev1),borderColor:'#1D4ED8',borderWidth:2,tension:.4,pointRadius:5,pointBackgroundColor:'#1D4ED8'},
-      ], {min:50,max:110});
+      mkChart('chart-hearing', null, [{label:'หูขวา (dB)',data:sorted.map(r=>r.hearing_right),borderColor:'#6B21A8',borderWidth:2,tension:.4,pointRadius:5,pointBackgroundColor:'#6B21A8'},{label:'หูซ้าย (dB)',data:sorted.map(r=>r.hearing_left),borderColor:'#D97706',borderWidth:2,tension:.4,pointRadius:5,pointBackgroundColor:'#D97706'}]);
+      mkChart('chart-lung', null, [{label:'FVC (%)',data:sorted.map(r=>r.fvc),borderColor:'#059669',borderWidth:2,tension:.4,fill:true,backgroundColor:'rgba(5,150,105,.07)',pointRadius:5,pointBackgroundColor:'#059669'},{label:'FEV1 (%)',data:sorted.map(r=>r.fev1),borderColor:'#1D4ED8',borderWidth:2,tension:.4,pointRadius:5,pointBackgroundColor:'#1D4ED8'}],{min:50,max:110});
+      mkChart('chart-va', null, [{label:'VA ระยะไกล',data:sorted.map(r=>{if(!r.va_far)return null;const m=r.va_far.match(/(\d+)\/(\d+)/);return m?parseFloat(m[1])/parseFloat(m[2])*6:null;}),borderColor:'#7C3AED',borderWidth:2,tension:.4,pointRadius:5,pointBackgroundColor:'#7C3AED'}]);
+      mkChart('chart-bmi-risk', null, [{label:'BMI',data:sorted.map(r=>r.bmi_risk),borderColor:'#B45309',backgroundColor:'rgba(180,83,9,.08)',borderWidth:2,tension:.4,fill:true,pointRadius:5,pointBackgroundColor:'#B45309'}]);
     }, 100);
   } catch(e) { document.getElementById('risk-dash-content').innerHTML = `<div class="empty"><div class="empty-ico">⚠️</div><h3>${e.message}</h3></div>`; }
 }
@@ -3199,7 +3230,7 @@ async function loadAdmin() {
       </tr>`).join('')}</tbody></table></div>`;
 
   } else if (adminTab === 'risk') {
-    const { data } = await sb.from('risk_checkup').select('id,emp_id,checkup_year,bp_systolic,bp_diastolic,hearing_result,fvc,chemical_test,ekg_risk_result,overall_result,employees(full_name,department)').order('checkup_year',{ascending:false}).limit(200);
+    const { data } = await sb.from('risk_checkup').select('id,emp_id,checkup_year,bp_systolic,bp_diastolic,hearing_result,fvc,lung_result,color_vision,eye_external,bmi_risk,chemical_test,chemical_result,chemical_unit,ekg_risk_result,overall_result,employees(full_name,department)').order('checkup_year',{ascending:false}).limit(200);
     el.innerHTML = `<div style="overflow-x:auto;"><table class="emp-table">
       <thead><tr><th>ชื่อ</th><th>แผนก</th><th>ปี</th><th>ความดัน</th><th>การได้ยิน</th><th>ปอด FVC</th><th>EKG</th><th>ผลรวม</th></tr></thead>
       <tbody>${(data||[]).map(r=>`<tr>
@@ -3677,9 +3708,9 @@ async function loadOverview(forceYear) {
   // สรุปผลผิดปกติรายประเภท
   const n = checkedThisYear.length || 1;
   const riskStats = [
-    {label:'การได้ยิน', n:checkedThisYear.filter(x=>x.hearing_result&&x.hearing_result!=='ปกติ').length, total:checkedThisYear.filter(x=>x.hearing_result).length},
+    {label:'การได้ยิน', n:checkedThisYear.filter(x=>x.hearing_result&&x.hearing_result!=='ปกติ'&&x.hearing_result!=='ไม่ได้ตรวจ').length, total:checkedThisYear.filter(x=>x.hearing_result&&x.hearing_result!=='ไม่ได้ตรวจ').length},
     {label:'สมรรถภาพปอด (FVC)', n:checkedThisYear.filter(x=>x.fvc&&x.fvc<80).length, total:checkedThisYear.filter(x=>x.fvc).length},
-    {label:'EKG', n:checkedThisYear.filter(x=>x.ekg_risk_result&&x.ekg_risk_result!=='ปกติ').length, total:checkedThisYear.filter(x=>x.ekg_risk_result).length},
+    {label:'EKG', n:checkedThisYear.filter(x=>x.ekg_risk_result&&x.ekg_risk_result!=='ปกติ'&&x.ekg_risk_result!=='ไม่ได้ตรวจ').length, total:checkedThisYear.filter(x=>x.ekg_risk_result&&x.ekg_risk_result!=='ไม่ได้ตรวจ').length},
     {label:'สารเคมีในเลือด', n:checkedThisYear.filter(x=>x.chemical_result&&x.chemical_result!=='ปกติ').length, total:checkedThisYear.filter(x=>x.chemical_result).length},
   ];
 
@@ -3712,7 +3743,7 @@ async function loadOverview(forceYear) {
     const total = yd.length;
     const abn = yd.filter(x=>x.overall_result&&x.overall_result!=='ปกติ').length;
     const pass = yd.filter(x=>x.overall_result==='ปกติ').length;
-    const hear = yd.filter(x=>x.hearing_result&&x.hearing_result!=='ปกติ').length;
+    const hear = yd.filter(x=>x.hearing_result&&x.hearing_result!=='ปกติ'&&x.hearing_result!=='ไม่ได้ตรวจ').length;
     const fvcAbn = yd.filter(x=>x.fvc&&x.fvc<80).length;
     const pct = total>0?Math.round(abn/total*100):0;
     const prevY = i>0?trendYears[i-1]:null;
@@ -3763,9 +3794,9 @@ async function loadOverview(forceYear) {
     // === ความเสี่ยงที่พบบ่อย (อันดับ 3) ===
     (function() {
       var riskFreq2 = [
-        { label: 'การได้ยินผิดปกติ', count: checkedThisYear.filter(function(x){return x.hearing_result && x.hearing_result!=='ปกติ';}).length, color: '#7C3AED' },
+        { label: 'การได้ยินผิดปกติ', count: checkedThisYear.filter(function(x){return x.hearing_result && x.hearing_result!=='ปกติ' && x.hearing_result!=='ไม่ได้ตรวจ';}).length, color: '#7C3AED' },
         { label: 'สมรรถภาพปอด (FVC<80%)', count: checkedThisYear.filter(function(x){return x.fvc && x.fvc<80;}).length, color: '#0284C7' },
-        { label: 'EKG ผิดปกติ', count: checkedThisYear.filter(function(x){return x.ekg_risk_result && x.ekg_risk_result!=='ปกติ';}).length, color: '#DC2626' },
+        { label: 'EKG ผิดปกติ', count: checkedThisYear.filter(function(x){return x.ekg_risk_result && x.ekg_risk_result!=='ปกติ' && x.ekg_risk_result!=='ไม่ได้ตรวจ';}).length, color: '#DC2626' },
         { label: 'สารเคมีในเลือดผิดปกติ', count: checkedThisYear.filter(function(x){return x.chemical_result && x.chemical_result!=='ปกติ';}).length, color: '#D97706' },
         { label: 'ผลรวมผิดปกติ', count: checkedThisYear.filter(function(x){return x.overall_result && x.overall_result!=='ปกติ';}).length, color: '#EA580C' },
       ].filter(function(x){ return x.count > 0; }).sort(function(a,b){ return b.count - a.count; });
@@ -3956,7 +3987,7 @@ function renderRiskTable(data, allData) {
       <span id="rr-count" style="font-size:12px;color:var(--sub);white-space:nowrap;">${data.length} รายการ</span>
     </div>
     <div style="overflow-x:auto;"><table class="emp-table">
-      <thead><tr><th>ชื่อ</th><th>แผนก</th><th>ปี</th><th>ความดัน</th><th>การได้ยิน</th><th>ปอด FVC</th><th>สารเคมี</th><th>EKG</th><th>ผลรวม</th></tr></thead>
+      <thead><tr><th>ชื่อ</th><th>แผนก</th><th>ปี</th><th>ความดัน</th><th>การได้ยิน</th><th>ปอด</th><th>สายตา</th><th>BMI</th><th>สารเคมี</th><th>EKG</th><th>ผลรวม</th></tr></thead>
       <tbody id="rr-tbody">${rows}</tbody>
     </table></div>
   </div>`;
@@ -3978,29 +4009,65 @@ function filterRiskRecords() {
   });
   const tbody = document.getElementById('rr-tbody');
   const cnt = document.getElementById('rr-count');
-  if (tbody) tbody.innerHTML = filtered.length ? filtered.map(r=>`<tr>
-    <td>${r.employees?.full_name||r.emp_id}</td>
-    <td style="font-size:12px">${r.employees?.department||'—'}</td>
-    <td>${r.checkup_year}</td>
-    <td>${r.bp_systolic ? r.bp_systolic+'/'+r.bp_diastolic+' mmHg' : '<span class="badge b-gray">—</span>'}</td>
-    <td><span class="badge ${r.hearing_result==='ปกติ'?'b-ok':'b-warn'}">${r.hearing_result||'—'}</span></td>
-    <td>${r.fvc||'—'}${r.fvc?'%':''}</td>
-    <td style="font-size:12px">${r.chemical_test||'—'}: ${r.chemical_result||'—'} ${r.chemical_unit||''}</td>
-    <td><span class="badge ${r.ekg_risk_result==='ปกติ'?'b-ok':'b-warn'}">${r.ekg_risk_result||'—'}</span></td>
-    <td><span class="badge ${r.overall_result==='ปกติ'?'b-ok':'b-warn'}">${r.overall_result||'—'}</span></td>
-  </tr>`).join('') : '<tr><td colspan="9" style="text-align:center;padding:20px;color:var(--sub);">ไม่พบข้อมูล</td></tr>';
+  if (tbody) tbody.innerHTML = filtered.length ? filtered.map(r=>{
+    const hearBadge = r.hearing_result==='ไม่ได้ตรวจ'?'<span class="badge b-gray">ไม่ได้ตรวจ</span>':r.hearing_result==='ปกติ'?'<span class="badge b-ok">ปกติ</span>':r.hearing_result?'<span class="badge b-warn">'+r.hearing_result+'</span>':'<span class="badge b-gray">—</span>';
+    const lungTxt = r.lung_result==='ไม่ได้ตรวจ'?'<span class="badge b-gray">ไม่ได้ตรวจ</span>':r.lung_result==='ปกติ'?'<span class="badge b-ok">ปกติ</span>':r.lung_result?'<span class="badge b-warn" style="font-size:10px">'+r.lung_result.split(' ')[0]+'</span>':'<span class="badge b-gray">—</span>';
+    const eyeTxt = (r.color_vision==='ไม่ได้ตรวจ'||!r.color_vision)&&(r.eye_external==='ไม่ได้ตรวจ'||!r.eye_external)?'<span class="badge b-gray">ไม่ได้ตรวจ</span>':(r.color_vision!=='ปกติ'&&r.color_vision&&r.color_vision!=='ไม่ได้ตรวจ')||(r.eye_external!=='ปกติ'&&r.eye_external&&r.eye_external!=='ไม่ได้ตรวจ')?'<span class="badge b-warn">ผิดปกติ</span>':'<span class="badge b-ok">ปกติ</span>';
+    const bmiTxt = !r.bmi_risk?'<span class="badge b-gray">—</span>':r.bmi_risk<23?'<span class="badge b-ok">'+r.bmi_risk+'</span>':r.bmi_risk<25?'<span class="badge b-warn">'+r.bmi_risk+'</span>':'<span class="badge b-danger">'+r.bmi_risk+'</span>';
+    const ekgBadge = r.ekg_risk_result==='ไม่ได้ตรวจ'?'<span class="badge b-gray">ไม่ได้ตรวจ</span>':r.ekg_risk_result==='ปกติ'?'<span class="badge b-ok">ปกติ</span>':r.ekg_risk_result?'<span class="badge b-warn">'+r.ekg_risk_result+'</span>':'<span class="badge b-gray">—</span>';
+    return `<tr>
+      <td>${r.employees?.full_name||r.emp_id}</td>
+      <td style="font-size:12px">${r.employees?.department||'—'}</td>
+      <td>${r.checkup_year}</td>
+      <td>${r.bp_systolic ? r.bp_systolic+'/'+r.bp_diastolic+' mmHg' : '<span class="badge b-gray">—</span>'}</td>
+      <td>${hearBadge}</td>
+      <td>${lungTxt}</td>
+      <td>${eyeTxt}</td>
+      <td>${bmiTxt}</td>
+      <td style="font-size:11px">${r.chemical_test?r.chemical_test+': '+(r.chemical_result||'—')+' '+(r.chemical_unit||''):'<span class="badge b-gray">—: —</span>'}</td>
+      <td>${ekgBadge}</td>
+      <td><span class="badge ${r.overall_result==='ปกติ'?'b-ok':r.overall_result?'b-warn':'b-gray'}">${r.overall_result||'—'}</span></td>
+    </tr>`;
+  }).join('') : '<tr><td colspan="11" style="text-align:center;padding:20px;color:var(--sub);">ไม่พบข้อมูล</td></tr>';
   if (cnt) cnt.textContent = filtered.length + ' รายการ';
 }
 
 
-async function exportRiskReportPDF() {
+async function pickRiskReportYear() {
+  // ดึงปีที่มีข้อมูลใน risk_checkup
+  const { data } = await sb.from('risk_checkup').select('checkup_year').order('checkup_year', {ascending:false}).limit(500);
+  const years = [...new Set((data||[]).map(r=>r.checkup_year))].sort((a,b)=>b-a);
+  if (!years.length) { showNotif('ยังไม่มีข้อมูลปัจจัยเสี่ยงในระบบ', 'error'); return; }
+
+  const modal = document.createElement('div');
+  modal.id = 'risk-report-year-modal';
+  modal.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:9999;display:flex;align-items:center;justify-content:center;';
+  modal.innerHTML = `
+    <div style="background:white;border-radius:16px;padding:28px;width:320px;max-width:90vw;box-shadow:0 20px 60px rgba(0,0,0,.25);">
+      <div style="font-family:'Prompt',sans-serif;font-weight:700;font-size:16px;color:#4C1D95;margin-bottom:6px;">📄 Export รายงานปัจจัยเสี่ยง</div>
+      <div style="font-size:13px;color:#6B7280;margin-bottom:20px;">เลือกปีที่ต้องการออกรายงาน</div>
+      ${years.map(y=>`
+        <button onclick="document.getElementById('risk-report-year-modal').remove();exportRiskReportPDF(${y});"
+          style="display:block;width:100%;padding:11px 16px;margin-bottom:8px;background:#EDE9FE;border:2px solid #7C3AED;border-radius:10px;cursor:pointer;font-size:14px;font-weight:600;color:#5B21B6;font-family:inherit;text-align:left;">
+          📊 ปี พ.ศ. ${y}
+        </button>`).join('')}
+      <button onclick="document.getElementById('risk-report-year-modal').remove();"
+        style="display:block;width:100%;padding:9px;margin-top:4px;background:#F3F4F6;border:none;border-radius:8px;cursor:pointer;font-size:13px;font-family:inherit;color:#6B7280;">
+        ยกเลิก
+      </button>
+    </div>`;
+  modal.addEventListener('click', e => { if(e.target===modal) modal.remove(); });
+  document.body.appendChild(modal);
+}
+
+async function exportRiskReportPDF(selectedYear) {
   showNotif('⏳ กำลังดึงข้อมูลและสร้าง PDF...', 'success');
   try {
     // ดึงข้อมูลทั้งหมด
     const [empRes, annualRes, riskRes, trendRes] = await Promise.all([
       sb.from('employees').select('emp_id,full_name,department,gender').eq('role','employee'),
       sb.from('annual_checkup').select('emp_id,checkup_year,bmi,bp_systolic,fbs,total_cholesterol,triglyceride,hdl,sgot,sgpt,creatinine,ekg_result,ai_score,employees(full_name,department)').order('checkup_year',{ascending:false}).limit(1000),
-      sb.from('risk_checkup').select('emp_id,checkup_year,hearing_result,hearing_right,hearing_left,fvc,fev1,lung_result,va_far,va_near,color_vision,stereopsis,eye_external,ekg_risk_result,overall_result,chemical_test,employees(full_name,department)').order('checkup_year',{ascending:false}).limit(500),
+      sb.from('risk_checkup').select('emp_id,checkup_year,hearing_result,hearing_right,hearing_left,fvc,fev1,lung_result,va_far,va_near,color_vision,eye_external,ekg_risk_result,overall_result,chemical_test,bp_systolic,bp_diastolic,bmi_risk,creatinine_risk,employees(full_name,department)').order('checkup_year',{ascending:false}).limit(500),
       sb.from('annual_checkup').select('checkup_year,ai_score,bmi,bp_systolic,fbs,total_cholesterol').order('checkup_year').limit(1000),
     ]);
 
@@ -4009,32 +4076,35 @@ async function exportRiskReportPDF() {
     const riskAll = riskRes.data||[];
     const trendAll = trendRes.data||[];
 
-    // ปีล่าสุด
-    const latestYear = annualAll.length ? Math.max(...annualAll.map(r=>r.checkup_year)) : (new Date().getFullYear()+543);
-    const annual = annualAll.filter(r=>r.checkup_year===latestYear);
-    const n = annual.length;
+    // ปีที่เลือก (จาก picker) หรือปีล่าสุดของ risk_checkup
+    const latestYear = selectedYear || (riskAll.length ? Math.max(...riskAll.map(r=>r.checkup_year)) : (new Date().getFullYear()+543));
+
+    // ปัจจัยเสี่ยง — ใช้ riskYear เป็นหลัก
+    const riskYear = riskAll.filter(r=>r.checkup_year===latestYear);
+    const n = riskYear.length;
     const notChecked = total - n;
     const pct = c => total>0 ? Math.round(c/total*100) : 0;
 
-    // คะแนนและกลุ่มเสี่ยง
-    const abnormalList = annual.filter(r => r.bmi>=23||r.bp_systolic>=130||r.fbs>=100||r.total_cholesterol>=200);
-    const normalList = annual.filter(r => r.bmi<23&&r.bp_systolic<130&&r.fbs<100&&r.total_cholesterol<200);
-    const riskGroup = annual.filter(r => calcScore(r) < 60);
+    // กลุ่มเสี่ยงจาก overall_result
+    const abnormalList = riskYear.filter(r => r.overall_result && r.overall_result !== 'ปกติ');
+    const normalList = riskYear.filter(r => r.overall_result === 'ปกติ');
+    const riskGroup = abnormalList;
 
-    // สถิติผิดปกติแต่ละรายการ
+    // สถิติผิดปกติรายรายการ (จาก risk_checkup)
     const abnStats = [
-      {label:'BMI เกินเกณฑ์ (≥23)',      n:annual.filter(r=>r.bmi>=23).length},
-      {label:'ความดันสูง (≥130 mmHg)',    n:annual.filter(r=>r.bp_systolic>=130).length},
-      {label:'น้ำตาลสูง (FBS ≥100)',      n:annual.filter(r=>r.fbs>=100).length},
-      {label:'คอเลสเตอรอลสูง (≥200)',     n:annual.filter(r=>r.total_cholesterol>=200).length},
-      {label:'TG สูง (≥150)',              n:annual.filter(r=>r.triglyceride>=150).length},
-      {label:'ตับผิดปกติ (AST/ALT >40)',  n:annual.filter(r=>(r.sgot>40||r.sgpt>40)).length},
-      {label:'ไตผิดปกติ (Creatinine >1.2)',n:annual.filter(r=>r.creatinine>1.2).length},
+      {label:'การได้ยินผิดปกติ',           n:riskYear.filter(r=>r.hearing_result&&r.hearing_result!=='ปกติ'&&r.hearing_result!=='ไม่ได้ตรวจ').length},
+      {label:'สมรรถภาพปอดลดลง (FVC <80%)', n:riskYear.filter(r=>r.fvc&&r.fvc<80).length},
+      {label:'ความดันสูง (≥130 mmHg)',      n:riskYear.filter(r=>r.bp_systolic&&r.bp_systolic>=130).length},
+      {label:'EKG ผิดปกติ',                 n:riskYear.filter(r=>r.ekg_risk_result&&r.ekg_risk_result!=='ปกติ'&&r.ekg_risk_result!=='ไม่ได้ตรวจ').length},
+      {label:'BMI เกินเกณฑ์ (≥23)',         n:riskYear.filter(r=>r.bmi_risk&&r.bmi_risk>=23).length},
+      {label:'Creatinine สูง (>1.2)',        n:riskYear.filter(r=>r.creatinine_risk&&r.creatinine_risk>1.2).length},
+      {label:'Color Vision ผิดปกติ',        n:riskYear.filter(r=>r.color_vision&&r.color_vision!=='ปกติ'&&r.color_vision!=='ไม่ได้ตรวจ').length},
+      {label:'External Eye ผิดปกติ (UV)',   n:riskYear.filter(r=>r.eye_external&&r.eye_external!=='ปกติ'&&r.eye_external!=='ไม่ได้ตรวจ').length},
     ].sort((a,b)=>b.n-a.n);
     const topRisk = abnStats[0];
 
-    // ปัจจัยเสี่ยง
-    const riskYear = riskAll.filter(r=>r.checkup_year===latestYear);
+    // annual ยังใช้สำหรับ trend เท่านั้น
+    const annual = annualAll.filter(r=>r.checkup_year===latestYear);
     const hearingAbn = riskYear.filter(r=>r.hearing_result&&r.hearing_result!=='ปกติ'&&r.hearing_result!=='ไม่ได้ตรวจ').length;
     const lungAbn = riskYear.filter(r=>r.fvc&&r.fvc<80).length;
     const eyeAbn = riskYear.filter(r=>(r.color_vision&&r.color_vision!=='ปกติ'&&r.color_vision!=='ไม่ได้ตรวจ')||(r.stereopsis&&r.stereopsis!=='ปกติ'&&r.stereopsis!=='ไม่ได้ตรวจ')||(r.eye_external&&r.eye_external!=='ปกติ'&&r.eye_external!=='ไม่ได้ตรวจ')).length;
@@ -4203,10 +4273,12 @@ async function exportRiskReportPDF() {
         </div>
 
         ${[
-          {no:'1', title:'เร่งตรวจสุขภาพพนักงานกลุ่มเสี่ยงที่เหลือ', detail:`ปัจจุบันยังมีพนักงานที่ยังไม่ได้รับการตรวจสุขภาพ ${notChecked} ราย (${pct(notChecked)}%) ควรเร่งดำเนินการตรวจให้ครบภายในปีงบประมาณ`, color:'#EDE9FE', border:'#7C3AED', text:'#4C1D95'},
-          {no:'2', title:'เพิ่มมาตรการป้องกันเสียงในงานช่าง', detail:`พบพนักงานมีปัญหาการได้ยิน ${hearingAbn} ราย ควรจัดหาอุปกรณ์ป้องกันเสียง (Earplug/Earmuff) และตรวจวัดระดับเสียงในพื้นที่ปฏิบัติงานเป็นประจำ`, color:'#FEF3C7', border:'#D97706', text:'#92400E'},
-          {no:'3', title:'เฝ้าระวังพนักงานที่มีค่าปอดต่ำ', detail:`พบพนักงานที่มีสมรรถภาพปอดลดลง (FVC <80%) จำนวน ${lungAbn} ราย ควรส่งพบแพทย์เฉพาะทางและประเมินสภาพแวดล้อมการทำงาน`, color:'#ECFDF5', border:'#059669', text:'#064E3B'},
-          {no:'4', title:'ติดตามตรวจสุขภาพซ้ำทุก 12 เดือน', detail:`พนักงานกลุ่มเสี่ยง ${riskGroup.length} ราย ควรได้รับการติดตามผลทุก 12 เดือน พร้อมให้ความรู้ด้านสุขภาพและปรับเปลี่ยนพฤติกรรม`, color:'#EFF6FF', border:'#3B82F6', text:'#1E40AF'},
+          {no:'1', title:'เร่งตรวจสุขภาพพนักงานที่ยังไม่ได้รับการตรวจ', detail:'ปัจจุบันยังมีพนักงานที่ยังไม่ได้รับการตรวจปัจจัยเสี่ยง '+notChecked+' ราย ('+pct(notChecked)+'%) ควรเร่งดำเนินการตรวจให้ครบภายในปีงบประมาณ', color:'#EDE9FE', border:'#7C3AED', text:'#4C1D95'},
+          {no:'2', title:'เพิ่มมาตรการป้องกันเสียงในงานช่าง', detail:'พบพนักงานมีปัญหาการได้ยิน '+hearingAbn+' ราย ควรจัดหาอุปกรณ์ป้องกันเสียง (Earplug/Earmuff) และตรวจวัดระดับเสียงในพื้นที่ปฏิบัติงานเป็นประจำ', color:'#FEF3C7', border:'#D97706', text:'#92400E'},
+          {no:'3', title:'เฝ้าระวังพนักงานที่มีสมรรถภาพปอดลดลง', detail:'พบพนักงานที่มีสมรรถภาพปอดลดลง (FVC <80%) จำนวน '+lungAbn+' ราย ควรส่งพบแพทย์เฉพาะทางและประเมินสภาพแวดล้อมการทำงาน', color:'#ECFDF5', border:'#059669', text:'#064E3B'},
+          {no:'4', title:'ติดตามผลตรวจสายตาพนักงานกลุ่มเสี่ยง', detail:'พบพนักงานมีความผิดปกติด้านสายตา (Color Vision / External Eye UV) จำนวน '+eyeAbn+' ราย ควรส่งพบจักษุแพทย์และพิจารณาจัดหาอุปกรณ์ป้องกันแสง UV', color:'#F0F9FF', border:'#0284C7', text:'#0C4A6E'},
+          {no:'5', title:'ส่งเสริมการควบคุมน้ำหนักพนักงาน', detail:'พบพนักงานที่มี BMI เกินเกณฑ์ (≥23) จำนวน '+(riskYear.filter(function(r){return r.bmi_risk&&r.bmi_risk>=23;}).length)+' ราย ควรจัดกิจกรรมส่งเสริมสุขภาพและให้คำแนะนำด้านโภชนาการ', color:'#FFF7ED', border:'#EA580C', text:'#9A3412'},
+          {no:'6', title:'ติดตามตรวจสุขภาพซ้ำทุก 12 เดือน', detail:'พนักงานกลุ่มเสี่ยง '+riskGroup.length+' ราย ควรได้รับการติดตามผลทุก 12 เดือน พร้อมให้ความรู้ด้านสุขภาพและปรับเปลี่ยนพฤติกรรม', color:'#EFF6FF', border:'#3B82F6', text:'#1E40AF'},
         ].map(item=>`
         <div style="background:${item.color};border-left:5px solid ${item.border};border-radius:0 10px 10px 0;padding:16px 20px;margin-bottom:16px;">
           <div style="display:flex;align-items:center;gap:10px;margin-bottom:6px;">
@@ -4307,16 +4379,32 @@ async function exportRiskPDF(selectedExportYear) {
 
   let tablesHTML = '';
   sorted.forEach(d => {
-    const rows = [
-      ['หูขวา', `${d.hearing_right||'—'} dB`, '<25 dB HL', d.hearing_right?(d.hearing_right<25?'ปกติ':'สูญเสีย'):'—'],
-      ['หูซ้าย', `${d.hearing_left||'—'} dB`, '<25 dB HL', d.hearing_left?(d.hearing_left<25?'ปกติ':'สูญเสีย'):'—'],
-      ['FVC', `${d.fvc||'—'}${d.fvc?'%':''}`, '≥80% predicted', d.fvc?(d.fvc>=80?'ปกติ':'ลดลง'):'—'],
-      ['FEV1', `${d.fev1||'—'}${d.fev1?'%':''}`, '≥70%', d.fev1?(d.fev1>=70?'ปกติ':'ลดลง'):'—'],
-      ['สารเคมี', `${d.chemical_test||'—'}: ${d.chemical_result||'—'} ${d.chemical_unit||''}`, d.chemical_reference||'—', 'ดูผล'],
-      ['EKG', d.ekg_risk_result||'—', 'Normal Sinus Rhythm', d.ekg_risk_result==='ปกติ'?'ปกติ':d.ekg_risk_result||'—'],
-      ['Creatinine', `${d.creatinine_risk||'—'}${d.creatinine_risk?' mg/dL':''}`, '0.7-1.2 mg/dL', d.creatinine_risk?(d.creatinine_risk<=1.2?'ปกติ':'สูง'):'—'],
-      ['ผลรวม', d.overall_result||'—', '', d.overall_result||'—'],
-    ];
+    const ntText = 'ไม่ได้ตรวจ';
+    const hdrStyle = 'background:#F3F0FF;color:#4C1D95;font-weight:700;font-size:12px;padding:7px 10px;border-bottom:2px solid #7C3AED;';
+    const mkHdr = (label) => `<tr><td colspan="4" style="${hdrStyle}">${label}</td></tr>`;
+    const mkRow = (label, val, ref, status, alt) => `<tr style="border-bottom:1px solid #E5E7EB;"><td style="${alt?'padding:6px 10px;font-size:12px;background:#FAF5FF;':'padding:6px 10px;font-size:12px;'}">${label}</td><td style="${alt?'padding:6px 10px;font-size:12px;background:#FAF5FF;':'padding:6px 10px;font-size:12px;'}">${val}</td><td style="${alt?'padding:6px 10px;font-size:12px;background:#FAF5FF;':'padding:6px 10px;font-size:12px;'}color:#6B7280;">${ref}</td><td style="${alt?'padding:6px 10px;font-size:12px;background:#FAF5FF;':'padding:6px 10px;font-size:12px;'}">${status}</td></tr>`;
+    const rowsHTML =
+      mkHdr('สายตา (Visual Examination)') +
+      mkRow('VA ระยะไกล', d.va_far||ntText, '6/6 หรือดีกว่า', d.va_far?'—':ntText, false) +
+      mkRow('VA ระยะใกล้', d.va_near||ntText, 'N6 หรือดีกว่า', d.va_near?'—':ntText, true) +
+      mkRow('Color Vision (ตาบอดสี)', d.color_vision||ntText, 'ปกติ', d.color_vision==='ปกติ'?'ปกติ':d.color_vision||ntText, false) +
+      mkRow('External Eye (UV)', d.eye_external||ntText, 'ปกติ', d.eye_external==='ปกติ'?'ปกติ':d.eye_external||ntText, true) +
+      mkHdr('การได้ยิน (Audiometry)') +
+      mkRow('หูขวา', d.hearing_result==='ไม่ได้ตรวจ'?ntText:`${d.hearing_right||'—'} dB`, '<25 dB HL', d.hearing_result==='ไม่ได้ตรวจ'?ntText:d.hearing_right?(d.hearing_right<25?'ปกติ':'สูญเสีย'):'—', false) +
+      mkRow('หูซ้าย', d.hearing_result==='ไม่ได้ตรวจ'?ntText:`${d.hearing_left||'—'} dB`, '<25 dB HL', d.hearing_result==='ไม่ได้ตรวจ'?ntText:d.hearing_left?(d.hearing_left<25?'ปกติ':'สูญเสีย'):'—', true) +
+      mkRow('ผลการได้ยิน', d.hearing_result||ntText, 'ปกติ', d.hearing_result==='ปกติ'?'ปกติ':d.hearing_result||ntText, false) +
+      mkHdr('สมรรถภาพปอด (Spirometry)') +
+      mkRow('FVC', d.lung_result==='ไม่ได้ตรวจ'?ntText:`${d.fvc||'—'}${d.fvc?'%':''}`, '≥80% predicted', d.lung_result==='ไม่ได้ตรวจ'?ntText:d.fvc?(d.fvc>=80?'ปกติ':'ลดลง'):'—', false) +
+      mkRow('FEV1', d.lung_result==='ไม่ได้ตรวจ'?ntText:`${d.fev1||'—'}${d.fev1?'%':''}`, '≥70%', d.lung_result==='ไม่ได้ตรวจ'?ntText:d.fev1?(d.fev1>=70?'ปกติ':'ลดลง'):'—', true) +
+      mkRow('ผลสมรรถภาพปอด', d.lung_result||ntText, 'ปกติ', d.lung_result==='ปกติ'?'ปกติ':d.lung_result||ntText, false) +
+      mkHdr('EKG / ไต / BMI') +
+      mkRow('EKG', d.ekg_risk_result||ntText, 'Normal Sinus Rhythm', d.ekg_risk_result==='ปกติ'?'ปกติ':d.ekg_risk_result||ntText, false) +
+      mkRow('Creatinine', `${d.creatinine_risk||ntText}${d.creatinine_risk?' mg/dL':''}`, '0.7-1.2 mg/dL', d.creatinine_risk?(d.creatinine_risk<=1.2?'ปกติ':'สูง'):ntText, true) +
+      mkRow('BMI', d.bmi_risk?`${d.bmi_risk} kg/m²`:ntText, '18.5-22.9 (เกณฑ์เอเชีย)', d.bmi_risk?(d.bmi_risk<18.5?'ต่ำกว่าเกณฑ์':d.bmi_risk<23?'ปกติ':d.bmi_risk<25?'น้ำหนักเกิน':'อ้วน'):ntText, false) +
+      mkHdr('สารเคมี') +
+      mkRow('สารเคมีที่ตรวจ', `${d.chemical_test||'—'}: ${d.chemical_result||'—'} ${d.chemical_unit||''}`, d.chemical_reference||'—', 'ดูผล', false) +
+      mkHdr('ผลสรุป') +
+      mkRow('ผลรวม', d.overall_result||'—', '', d.overall_result||'—', false);
     tablesHTML += `
       <div style="margin-bottom:20px;">
         <div style="background:#EDE9FE;padding:8px 12px;border-radius:6px 6px 0 0;font-weight:700;color:#581C87;font-size:13px;">
@@ -4330,9 +4418,7 @@ async function exportRiskPDF(selectedExportYear) {
             <th style="${thStyle}width:20%">สถานะ</th>
           </tr></thead>
           <tbody>
-            ${rows.map((r,i)=>`<tr style="${rowStyle}">
-              ${r.map(c=>`<td style="${i%2===0?tdStyle:tdAltStyle}">${c}</td>`).join('')}
-            </tr>`).join('')}
+            ${rowsHTML}
           </tbody>
         </table>
         ${d.notes?`<div style="padding:6px 12px;background:#F9FAFB;border:1px solid #E5E7EB;border-top:none;font-size:11px;color:#6B7280">หมายเหตุ: ${d.notes}</div>`:''}
