@@ -203,7 +203,7 @@ body { font-family:'Sarabun',sans-serif; background:var(--bg); color:var(--text)
 
 /* ===== AI BOX ===== */
 .ai-box { background:linear-gradient(135deg,var(--pea-purple-dark),var(--pea-purple)); border-radius:14px; padding:20px; color:white; margin-bottom:20px; position:relative; overflow:hidden; }
-.ai-box::after { content:'🤖'; position:absolute; right:16px; top:50%; transform:translateY(-50%); font-size:60px; opacity:.07; }
+.ai-box::after { content:'🤖'; position:absolute; right:16px; top:50%; transform:translateY(-50%); font-size:60px; opacity:.07; pointer-events:none; }
 .ncd-box::after { display:none !important; }
 .ai-dot { width:7px; height:7px; border-radius:50%; background:var(--pea-gold-light); animation:pulse 2s infinite; display:inline-block; }
 @keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:.4;transform:scale(1.4)} }
@@ -2253,6 +2253,7 @@ async function runAI() {
   const prompt = `${THAI_STANDARDS}
 
 คุณเป็นแพทย์เวชศาสตร์ป้องกันและโภชนาการ ที่มีความเชี่ยวชาญในการดูแลสุขภาพเชิงป้องกัน กรุณาวิเคราะห์ผลตรวจสุขภาพประจำปีของพนักงานอย่างละเอียด และให้คำแนะนำเป็นภาษาไทยที่เข้าใจง่าย เหมือนแพทย์คุยกับคนไข้โดยตรง (เพราะแพทย์มักมีเวลาน้อยในการอธิบาย):
+กฎการจัดรูปแบบ: ห้ามใช้ --- หรือเส้นคั่น, ไม่ต้องเว้นบรรทัดเกิน 1 บรรทัด, ใช้ ## และ ### สำหรับหัวข้อเท่านั้น
 
 ข้อมูลผู้รับการตรวจ: เพศ${currentUser.gender === 'male' ? 'ชาย' : 'หญิง'}
 ผลตรวจ ปี ${d.checkup_year}:
@@ -2296,7 +2297,7 @@ async function runAI() {
     await sb.from('annual_checkup').update({ ai_summary: summary, ai_score: score }).eq('id', d.id);
     const idx = annualData.findIndex(r => r.checkup_year === d.checkup_year);
     if (idx >= 0) { annualData[idx].ai_summary = summary; annualData[idx]._score = score; }
-    const discHtml = '<div style="margin-top:12px;font-size:11px;color:rgba(255,255,255,.5);font-style:italic;">⚕️ ข้อมูลประกอบการดูแลสุขภาพ ไม่ใช่การวินิจฉัยทางการแพทย์</div>';
+    const discHtml = '<div style="margin-top:12px;font-size:11px;color:rgba(255,255,255,.5);font-style:italic;">ข้อมูลประกอบการดูแลสุขภาพ ไม่ใช่การวินิจฉัยทางการแพทย์</div>';
 function mdToHtml(t){return t.replace(/^### (.+)$/gm,'<h3 style="font-size:13px;font-weight:700;color:#FFD700;margin:8px 0 4px;border-bottom:1px solid rgba(255,255,255,.2);padding-bottom:4px;">$1</h3>').replace(/^## (.+)$/gm,'<h2 style="font-size:14px;font-weight:800;color:#FFD700;margin:10px 0 4px;">$1</h2>').replace(/\*\*(.+?)\*\*/g,'<strong style="color:#FFD700;">$1</strong>').replace(/^> (.+)$/gm,'<blockquote style="border-left:3px solid #FFD700;padding:4px 10px;margin:4px 0;background:rgba(255,255,255,.08);border-radius:0 6px 6px 0;font-size:12px;">$1</blockquote>').replace(/^[•\-] (.+)$/gm,'<li style="margin:2px 0;font-size:13px;line-height:1.5;">$1</li>').replace(/(<li[^>]*>.*?<\/li>)/gs,'<ul style="padding-left:16px;margin:4px 0;">$1</ul>').replace(/---/g,'<hr style="border:none;border-top:1px solid rgba(255,255,255,.15);margin:6px 0;">').replace(/\n\n/g,'<br>').replace(/\n/g,' ');}
 if (textEl) textEl.innerHTML = '<div style="font-size:13px;line-height:1.6;max-height:520px;overflow-y:auto;padding-right:6px;">' + mdToHtml(summary) + '</div>' + discHtml;
   } catch(e) {
