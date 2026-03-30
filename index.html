@@ -1592,8 +1592,8 @@ function renderLabThumbs() {
 }
 
 async function readLabWithAI() {
-  const aiKey = localStorage.getItem('ai_key') || document.getElementById('tier2-ai-key').value.trim();
-  if (!aiKey) { alert('\u0e01\u0e23\u0e38\u0e13\u0e32\u0e01\u0e23\u0e2d\u0e01 Anthropic API Key \u0e01\u0e48\u0e2d\u0e19\u0e04\u0e23\u0e31\u0e1a'); return; }
+  const aiKey = localStorage.getItem('ai_key') || await getAIKey() || document.getElementById('tier2-ai-key').value.trim();
+  if (!aiKey) { alert('ไม่พบ API Key กรุณาติดต่อผู้ดูแลระบบ'); return; }
   if (!labImages.length) { alert('\u0e01\u0e23\u0e38\u0e13\u0e32\u0e2d\u0e31\u0e1b\u0e42\u0e2b\u0e25\u0e14\u0e23\u0e39\u0e1b\u0e2d\u0e22\u0e48\u0e32\u0e07\u0e19\u0e49\u0e2d\u0e22 1 \u0e23\u0e39\u0e1b\u0e01\u0e48\u0e2d\u0e19\u0e04\u0e23\u0e31\u0e1a'); return; }
   const btn = document.getElementById('btn-read-ai');
   btn.innerHTML = '\u23f3 AI \u0e01\u0e33\u0e25\u0e31\u0e07\u0e2d\u0e48\u0e32\u0e19 ' + labImages.length + ' \u0e23\u0e39\u0e1b...';
