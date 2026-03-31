@@ -3537,13 +3537,32 @@ async function adminEditAnnual(id) {
 }
 
 // ===== ORG HEALTH =====
+let orgHealthYear = null;
 async function loadOrgHealth() {
   const el = document.getElementById('org-health-content');
   el.innerHTML = '<div class="loading"><span class="spinner"></span>กำลังโหลดข้อมูล...</div>';
   try {
-    // หาปีล่าสุดที่มีข้อมูล
-    const latestYearRes = await sb.from('annual_checkup').select('checkup_year').order('checkup_year',{ascending:false}).limit(1).single();
-    const useYear = latestYearRes.data?.checkup_year || (new Date().getFullYear()+543);
+    // หาปีที่มีข้อมูล (2 ปีล่าสุด)
+    const yearsRes = await sb.from('annual_checkup').select('checkup_year').order('checkup_year',{ascending:false}).limit(500);
+    const allYears = [...new Set((yearsRes.data||[]).map(r=>r.checkup_year))].sort((a,b)=>b-a);
+    const top2Years = allYears.slice(0,2);
+    if (!orgHealthYear || !top2Years.includes(orgHealthYear)) orgHealthYear = top2Years[0];
+    const useYear = orgHealthYear || (new Date().getFullYear()+543);
+
+    // render ปุ่มเลือกปี
+    const topbar = document.querySelector('#page-org-health .topbar');
+    if (topbar && top2Years.length > 1) {
+      let ytabsEl = document.getElementById('org-health-ytabs');
+      if (!ytabsEl) {
+        ytabsEl = document.createElement('div');
+        ytabsEl.id = 'org-health-ytabs';
+        ytabsEl.className = 'ytabs';
+        topbar.appendChild(ytabsEl);
+      }
+      ytabsEl.innerHTML = top2Years.map(y =>
+        `<div class="ytab ${y===useYear?'active':''}" onclick="orgHealthYear=${y};loadOrgHealth()">${y}</div>`
+      ).join('');
+    }
 
     // ดึงข้อมูลทั้งหมดพร้อมกัน (รวม 3 ปีสำหรับ trend)
     const [annualRes, empRes, annualWithEmpRes, trendRes] = await Promise.all([
